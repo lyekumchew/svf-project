@@ -1,0 +1,18 @@
+server:
+  addr: :8080
+
+database:
+  dsn: "root:root@tcp(db:3306)/svf?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
+  max_idle_conn: 100
+
+minio:
+  endpoint: "minio_server"
+  accessKeyID: "your_access_key"
+  secretAccessKey: "your_secret_access_key"
+  useSSL: false
+  bucket: "bucket"
+
+nsq:
+  topic: "topic"
+  channel: "channel"
+  endpoint: "nsqd_server"
