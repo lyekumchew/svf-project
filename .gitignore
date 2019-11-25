@@ -1,0 +1,7 @@
+# config
+config/config.yaml
+
+# .file/directory
+.*
+
+!.gitignore
