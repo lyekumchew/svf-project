@@ -7,7 +7,6 @@ import (
 	"net/url"
 	"svf-project/config"
 	"svf-project/controllers"
-	"svf-project/models"
 )
 
 var video controllers.Video
@@ -28,18 +27,20 @@ func Start() {
 		}
 
 		eventName := res.Get("EventName").MustString()
-		if eventName == "s3:ObjectCreated:Put" {
+		if eventName == "s3:ObjectCreated:Post" || eventName == "s3:ObjectCreated:Put" {
 			objectName := res.Get("Records").GetIndex(0).Get("s3").Get("object").Get("key").MustString()
+
 			objectName, err = url.QueryUnescape(objectName)
 			if err != nil {
 				log.Println("Failed to unescape string")
 				return err
 			}
 
-			v := models.Video{ObjectName: objectName}
-			video.Uploaded(&v)
-
-			log.Println(objectName + " is uploaded")
+			if err = video.Uploaded(objectName); err != nil {
+				log.Println("DB update failed.")
+			} else {
+				log.Println(objectName + " is uploaded.")
+			}
 		}
 
 		return nil
