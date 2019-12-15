@@ -27,7 +27,7 @@ func CreatePostUrl(objectName string) (string, map[string]string, error) {
 	policy.SetBucket("images")
 	policy.SetKey(objectName)
 	policy.SetExpires(time.Now().UTC().AddDate(0, 0, 1))
-	policy.SetContentType("image/jpeg")
+	//policy.SetContentType("image/jpeg")
 	policy.SetContentLengthRange(1024, 1024*1024*1024) // 1KB to 1GB
 
 	url, formData, err := Client.PresignedPostPolicy(policy)
