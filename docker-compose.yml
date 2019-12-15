@@ -1,0 +1,11 @@
+version: "3.1"
+services:
+  api-backend:
+    build: .
+    ports:
+      - "1234:8080"
+    volumes:
+      - ./config/config.yaml:/app/config/config.yaml
+    restart: unless-stopped
+    environment:
+      - GIN_MODE=release
