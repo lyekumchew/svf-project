@@ -24,7 +24,7 @@ func Init() (*minio.Client, error) {
 
 func CreatePostUrl(objectName string) (string, map[string]string, error) {
 	policy := minio.NewPostPolicy()
-	policy.SetBucket("images")
+	policy.SetBucket(config.Get().Minio.Bucket)
 	policy.SetKey(objectName)
 	policy.SetExpires(time.Now().UTC().AddDate(0, 0, 1))
 	//policy.SetContentType("image/jpeg")

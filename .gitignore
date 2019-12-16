@@ -1,2 +1,6 @@
 # config
 config/config.yaml
+
+# idea config
+.idea
+
