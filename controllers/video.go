@@ -9,6 +9,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
+	"strings"
+	"svf-project/config"
 	"svf-project/database"
 	"svf-project/minio"
 	"svf-project/models"
@@ -86,7 +88,7 @@ func (v *Video) Show(c *gin.Context) {
 			return
 		}
 
-		v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": "video_name", "url": url})
+		v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": "video_name", "url": strings.Replace(url, "http://"+config.Get().Minio.Endpoint, config.Get().Minio.ExternalEndPoint, 1)})
 
 	} else {
 		v.JsonFail(c, http.StatusBadRequest, "Please check your json is ok.")
@@ -145,7 +147,7 @@ func (v *Video) Store(c *gin.Context) {
 		fmt.Printf("-F file=@test.jpg ")
 		fmt.Printf("%s\n", url)
 
-		v.JsonSuccess(c, http.StatusCreated, gin.H{"upload_url": url, "formData": formData, "video_id": video.VideoId, "delete_id": video.DeleteId})
+		v.JsonSuccess(c, http.StatusCreated, gin.H{"upload_url": strings.Replace(url, "http://"+config.Get().Minio.Endpoint, config.Get().Minio.ExternalEndPoint, 1), "formData": formData, "video_id": video.VideoId, "delete_id": video.DeleteId})
 
 	} else {
 		v.JsonFail(c, http.StatusBadRequest, err.Error())

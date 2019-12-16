@@ -11,6 +11,7 @@ minio:
   secretAccessKey: "your_secret_access_key"
   useSSL: false
   bucket: "bucket"
+  externalEndPoint: "https://minio.test.win" # replace the endpoint, if you don't need it, just set it like endpoint
 
 nsq:
   topic: "topic"

@@ -14,11 +14,12 @@ type Config struct {
 		MaxIdleConn int    `yaml:"max_idle_conn"`
 	}
 	Minio struct {
-		Endpoint        string `yaml:"endpoint"`
-		AccessKeyID     string `yaml:"accessKeyID"`
-		SecretAccessKey string `yaml:"secretAccessKey"`
-		UseSSL          bool   `yaml:"useSSL"`
-		Bucket          string `yaml:"bucket"`
+		Endpoint         string `yaml:"endpoint"`
+		AccessKeyID      string `yaml:"accessKeyID"`
+		SecretAccessKey  string `yaml:"secretAccessKey"`
+		UseSSL           bool   `yaml:"useSSL"`
+		Bucket           string `yaml:"bucket"`
+		ExternalEndPoint string `yaml:"externalEndPoint"`
 	}
 	Nsq struct {
 		Endpoint string `yaml:"endpoint"`
