@@ -42,7 +42,7 @@ func (v *Video) Index(c *gin.Context) {
 		needPasswd = true
 	}
 
-	v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": "video_name", "is_uploaded": true, "need_passwd": needPasswd})
+	v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": video.VideoName, "is_uploaded": true, "need_passwd": needPasswd})
 }
 
 func (v *Video) Show(c *gin.Context) {
@@ -71,7 +71,7 @@ func (v *Video) Show(c *gin.Context) {
 				return
 			}
 
-			v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": "video_name", "url": url})
+			v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": video.VideoName, "url": url})
 
 			return
 		}
@@ -88,7 +88,7 @@ func (v *Video) Show(c *gin.Context) {
 			return
 		}
 
-		v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": "video_name", "url": strings.Replace(url, "http://"+config.Get().Minio.Endpoint, config.Get().Minio.ExternalEndPoint, 1)})
+		v.JsonSuccess(c, http.StatusOK, gin.H{"url": strings.Replace(url, "http://"+config.Get().Minio.Endpoint, config.Get().Minio.ExternalEndPoint, 1)})
 
 	} else {
 		v.JsonFail(c, http.StatusBadRequest, "Please check your json is ok.")
@@ -129,6 +129,7 @@ func (v *Video) Store(c *gin.Context) {
 
 		video := models.Video{
 			VideoId:    videoId,
+			VideoName:  request.VideoName,
 			ObjectName: date + videoId + "." + request.VideoSuffix,
 			Password:   password,
 			DeleteId:   ksuid.New().String(),
@@ -140,12 +141,12 @@ func (v *Video) Store(c *gin.Context) {
 		}
 
 		// Test for curl
-		fmt.Printf("curl ")
-		for k, v := range formData {
-			fmt.Printf("-F %s=%s ", k, v)
-		}
-		fmt.Printf("-F file=@test.jpg ")
-		fmt.Printf("%s\n", url)
+		//fmt.Printf("curl ")
+		//for k, v := range formData {
+		//	fmt.Printf("-F %s=%s ", k, v)
+		//}
+		//fmt.Printf("-F file=@test.jpg ")
+		//fmt.Printf("%s\n", url)
 
 		v.JsonSuccess(c, http.StatusCreated, gin.H{"upload_url": strings.Replace(url, "http://"+config.Get().Minio.Endpoint, config.Get().Minio.ExternalEndPoint, 1), "formData": formData, "video_id": video.VideoId, "delete_id": video.DeleteId})
 
@@ -188,6 +189,7 @@ func (v *Video) Uploaded(objectName string) error {
 }
 
 type CreateRequest struct {
+	VideoName   string `form:"video_name" json:"video_name" binding:"required,max=128"`
 	Password    string `form:"password" json:"password" binding:"max=64"`
 	VideoSuffix string `form:"format" json:"format" binding:"required,min=3,max=4"`
 }

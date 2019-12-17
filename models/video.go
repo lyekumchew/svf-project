@@ -8,6 +8,7 @@ import (
 type Video struct {
 	gorm.Model
 	VideoId    string         `gorm:"type:varchar(32);unique;not null"`
+	VideoName  string         `gorm:"type:varchar(64);not null"`
 	ObjectName string         `gorm:"type:varchar(64);unique;not null"`
 	Password   sql.NullString `gorm:"type:varchar(64);default:null"`
 	IsUploaded sql.NullBool   `gorm:"type:tinyint(1);not_null;default:0"`
