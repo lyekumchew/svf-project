@@ -9,8 +9,11 @@ import (
 func Init() *gin.Engine {
 	router := gin.Default()
 
-	// Default() allows all origins
-	router.Use(cors.Default())
+	// Default() allows all origins & add OPTIONS allows
+	config := cors.DefaultConfig()
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
+	config.AllowAllOrigins = true
+	router.Use(cors.New(config))
 
 	v1 := router.Group("/api/v1")
 	{
@@ -20,6 +23,6 @@ func Init() *gin.Engine {
 		v1.POST("/upload", video.Store)
 		v1.POST("/delete/:delete_id", video.Destroy)
 	}
-	
+
 	return router
 }
