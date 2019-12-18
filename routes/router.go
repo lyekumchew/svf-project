@@ -13,6 +13,8 @@ func Init() *gin.Engine {
 	config := cors.DefaultConfig()
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
 	config.AllowAllOrigins = true
+	config.AllowCredentials = true
+	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "X-Requested-With"}
 	router.Use(cors.New(config))
 
 	v1 := router.Group("/api/v1")
