@@ -9,6 +9,9 @@ import (
 func Init() *gin.Engine {
 	router := gin.Default()
 
+	// Default() allows all origins
+	router.Use(cors.Default())
+
 	v1 := router.Group("/api/v1")
 	{
 		video := new(controllers.Video)
@@ -17,9 +20,6 @@ func Init() *gin.Engine {
 		v1.POST("/upload", video.Store)
 		v1.POST("/delete/:delete_id", video.Destroy)
 	}
-
-	// Default() allows all origins
-	router.Use(cors.Default())
-
+	
 	return router
 }
