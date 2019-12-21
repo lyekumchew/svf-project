@@ -71,7 +71,7 @@ func (v *Video) Show(c *gin.Context) {
 				return
 			}
 
-			v.JsonSuccess(c, http.StatusOK, gin.H{"video_name": video.VideoName, "url": url})
+			v.JsonSuccess(c, http.StatusOK, gin.H{"url": strings.Replace(url, "http://"+config.Get().Minio.Endpoint, config.Get().Minio.ExternalEndPoint, 1)})
 
 			return
 		}
